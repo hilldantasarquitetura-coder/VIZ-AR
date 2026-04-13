@@ -162,18 +162,6 @@
         .search-container svg { position: absolute; left: 10px; top: 9px; width: 14px; color: #999; }
         .tag-search-input { width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--border-line); border-radius: 6px; background: rgba(0,0,0,0.3); color: white; font-size: 12px; box-sizing: border-box;}
         
-        #tag-container { max-height: 48vh; overflow-y: auto; padding: 0; display: flex; flex-direction: column;}
-        .tree-node { display: flex; flex-direction: column; }
-        .tree-children { display: flex; flex-direction: column; border-left: 1px solid var(--border-line); margin-left: 12px; padding-left: 8px; }
-        .list-item-tree { display: flex; align-items: center; gap: 8px; padding: 6px 0; color: white; font-size: 12px; }
-        .arrow-toggle { width: 12px; font-size: 8px; color: #888; cursor: pointer; transition: 0.2s; }
-        .arrow-toggle.collapsed { transform: rotate(-90deg); }
-        .type-icon-master { color: #aaa; display: flex; align-items: center; }
-        .tag-name { flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;}
-        .tag-name.highlighted { font-weight: bold; }
-        .edit-btn { background: none; border: none; cursor: pointer; font-size: 12px; opacity: 0.5; transition: 0.2s; padding: 4px; display: flex; align-items: center;}
-        .edit-btn:hover { opacity: 1; }
-
         #ar-btn { 
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
             background: transparent; color: white; border: none; font-size: 16px; 
@@ -318,9 +306,6 @@
                     <button class="icon-btn" onclick="openMasterTab('panel-render', 'icn-render')" id="icn-render">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                     </button>
-                    <button class="icon-btn active" onclick="openMasterTab('panel-structure', 'icn-structure')" id="icn-structure">
-                        <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                    </button>
                     <button class="icon-btn" onclick="openMasterTab('panel-scale', 'icn-scale')" id="icn-scale">
                         <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="2"/><line x1="6" y1="8" x2="6" y2="12"/><line x1="10" y1="8" x2="10" y2="10"/><line x1="14" y1="8" x2="14" y2="12"/><line x1="18" y1="8" x2="18" y2="10"/></svg>
                     </button>
@@ -330,7 +315,6 @@
                     <button class="icon-btn" onclick="openMasterTab('panel-clipping', 'icn-clipping')" id="icn-clipping">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M3 12h18" stroke-width="1.5" stroke-dasharray="4,4"/><path d="M12 3v18" stroke-width="1.5" stroke-dasharray="4,4"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                     </button>
-
                     <button class="icon-btn" onclick="openMasterTab('panel-solar', 'icn-solar')" id="icn-solar">
                         <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     </button>
@@ -369,11 +353,26 @@
                 <div class="panel-content">
                     <p style="font-size: 10px; color: #aaa; margin-top:0; margin-bottom: 15px; line-height: 1.4;">Isole uma disciplina antes de abrir a câmera AR para visualizar apenas o que importa no canteiro.</p>
                     <div class="scale-options-grid" style="grid-template-columns: 1fr;">
-                        <div class="scale-option active" onclick="window.filterDiscipline('ALL', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">👁️ MOSTRAR TUDO</div>
-                        <div class="scale-option" onclick="window.filterDiscipline('EST', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">🧱 ESTRUTURA</div>
-                        <div class="scale-option" onclick="window.filterDiscipline('HID', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">💧 HIDRÁULICA</div>
-                        <div class="scale-option" onclick="window.filterDiscipline('ELE', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">⚡ ELÉTRICA</div>
-                        <div class="scale-option" onclick="window.filterDiscipline('ARQ', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">🏠 ARQUITETURA</div>
+                        <div class="scale-option active" onclick="window.filterDiscipline('ALL', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            MOSTRAR TUDO
+                        </div>
+                        <div class="scale-option" onclick="window.filterDiscipline('EST', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                            <svg class="icon-small" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            ESTRUTURA
+                        </div>
+                        <div class="scale-option" onclick="window.filterDiscipline('HID', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                            HIDRÁULICA
+                        </div>
+                        <div class="scale-option" onclick="window.filterDiscipline('ELE', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                            <svg class="icon-small" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            ELÉTRICA
+                        </div>
+                        <div class="scale-option" onclick="window.filterDiscipline('ARQ', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            ARQUITETURA
+                        </div>
                     </div>
                 </div>
             </div>
@@ -430,57 +429,6 @@
                     <div class="list-item"><label>GIRO 360º AUTO</label><input type="checkbox" id="chk-rotate" onchange="toggleAutoRotate(this.checked)"></div>
                     <div style="height:15px;"></div>
                     <div class="list-item"><label>☑ COLISÃO</label><input type="checkbox" checked id="chk-collision" onchange="toggleCollision(!this.checked)"></div>
-                </div>
-            </div>
-
-            <div class="drawer-panel active" id="panel-structure">
-                <div class="panel-header">ESTRUTURA DO MODELO <span class="close-panel" onclick="openMasterTab(null, null)">✕</span></div>
-                <div class="panel-content">
-                    <div class="search-container">
-                        <svg class="icon-small" viewBox="0 0 24 24"><path d="M3 6h18M6 11h12M9 16h6"/></svg>
-                        <input type="text" id="tag-search" class="tag-search-input" placeholder="Buscar grupo ou peça..." oninput="pesquisarTags(this.value)">
-                    </div>
-                    
-                    <div style="border-bottom: 1px solid var(--border-line); margin-bottom: 10px; padding-bottom: 5px;">
-                        <div class="list-item" style="border:none; padding-bottom:5px;">
-                            <label style="color:var(--su-blue); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
-                                <input type="checkbox" id="chk-select-mode" checked onchange="window.setInteractionMode(this.checked ? 'select' : 'none')">
-                                MODO SELEÇÃO (CLIQUE NA PEÇA)
-                            </label>
-                        </div>
-                        
-                        <div class="list-item" style="border:none; padding-bottom:5px;">
-                            <label style="color:var(--accent-red); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
-                                <input type="checkbox" id="chk-multi" onchange="window.multiHighlightEnabled = this.checked">
-                                DESTACAR MÚLTIPLOS ITENS
-                            </label>
-                        </div>
-
-                        <div class="list-item" style="border:none; padding-bottom:5px;">
-                            <label style="color:white; display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
-                                <input type="checkbox" id="chk-sync-list">
-                                MOSTRAR SELEÇÃO NA LISTA
-                            </label>
-                        </div>
-
-                        <div class="list-item" style="border:none; padding-bottom:5px;">
-                            <label style="font-weight: bold;">COR DA SELEÇÃO (DESTAQUE)</label>
-                            <input type="color" id="highlight-color" value="#ff0055" oninput="window.changeHighlightColor(this.value)">
-                        </div>
-                        <button class="btn-reset" style="margin-bottom: 5px;" onclick="clearAllHighlights()">APAGAR TODOS OS DESTAQUES</button>
-                    </div>
-
-                    <div style="margin-bottom: 10px;">
-                        <div class="list-item" style="border:none; padding-bottom:5px;">
-                            <label style="color:var(--text-muted); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
-                                <input type="checkbox" id="chk-hide-mode" onchange="window.setInteractionMode(this.checked ? 'hide' : 'none')">
-                                MODO OCULTAR (CLIQUE NA PEÇA)
-                            </label>
-                        </div>
-                        <button class="btn-reset" style="margin-bottom: 5px; background: rgba(0, 91, 181, 0.2); border-color: var(--su-blue); font-weight:bold; color: white;" onclick="window.showAllElements()">👁 REEXIBIR TUDO</button>
-                    </div>
-
-                    <div id="tag-container">Aguardando arquivo...</div>
                 </div>
             </div>
 
@@ -779,11 +727,10 @@
             if(!panelId || isAlreadyActive) return;
 
             panel.classList.add('active');
-            icon.classList.add('active');
+            if(icon) icon.classList.add('active');
         }
 
         const viewer = document.querySelector('#main-viewer');
-        const tagContainer = document.querySelector('#tag-container');
         const loadingScreen = document.getElementById('loading-screen');
         const progressFill = document.getElementById('progress-fill');
         const sliders = { X: document.getElementById('posX'), Y: document.getElementById('posY'), Z: document.getElementById('posZ') };
@@ -1231,7 +1178,6 @@
 
         window.changeHighlightColor = function(color) {
             window.customHighlightColor = color;
-            document.querySelectorAll('.tag-name.highlighted').forEach(el => { el.style.color = color; });
             const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
             if(sceneSymbol && viewer[sceneSymbol]) {
                 viewer[sceneSymbol].traverse((node) => {
@@ -1257,7 +1203,6 @@
                     }
                 });
             }
-            document.querySelectorAll('#tag-container input[type="checkbox"]').forEach(chk => { chk.checked = true; });
             let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
             showToast("Todas as peças estão visíveis.", 2000, "success");
         }
@@ -1297,30 +1242,12 @@
             if(sceneSymbol && viewer[sceneSymbol]) {
                 viewer[sceneSymbol].traverse((node) => { if(node.isMesh && node.userData.isHighlighted) { if (node.userData.origMaterial) node.material = node.userData.origMaterial; node.userData.isHighlighted = false; } });
             }
-            document.querySelectorAll('.tag-name.highlighted').forEach(el => { el.classList.remove('highlighted'); el.style.color = ''; });
             let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
             window.updateClippingPlanes();
         }
 
         window.expandAndScrollToUI = function(node) {
-            if(!document.getElementById('chk-sync-list').checked) return; 
-            if(!node.userData.uiLabel) return;
-            let el = node.userData.uiLabel;
-            let parent = el.parentElement;
-            let rootNodeUI = null;
-
-            while(parent && parent.id !== 'tag-container') {
-                if(parent.classList.contains('tree-node')) { rootNodeUI = parent; }
-                if(parent.classList.contains('tree-children')) {
-                    parent.style.display = 'flex'; 
-                    let toggle = parent.previousElementSibling?.querySelector('.arrow-toggle'); 
-                    if(toggle) toggle.classList.remove('collapsed');
-                }
-                parent = parent.parentElement;
-            }
-            
-            if(rootNodeUI) { document.getElementById('tag-container').prepend(rootNodeUI); }
-            setTimeout(() => { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+           return; // Função desativada para otimização - a lista não é mais montada.
         }
 
         // ==========================================
@@ -1670,16 +1597,9 @@
                     if (!window.multiHighlightEnabled && !isAlreadyHighlighted) { window.clearAllHighlights(); }
                     
                     if (isAlreadyHighlighted) {
-                        if (node.userData.uiLabel) { node.userData.uiLabel.classList.remove('highlighted'); node.userData.uiLabel.style.color = ''; }
                         window.applyHighlightToNode(node, false);
                     } else {
-                        if (node.userData.uiLabel) { node.userData.uiLabel.classList.add('highlighted'); node.userData.uiLabel.style.color = window.customHighlightColor; }
                         window.applyHighlightToNode(node, true);
-                        window.expandAndScrollToUI(node);
-                        
-                        if (document.getElementById('chk-sync-list').checked) {
-                            window.openMasterTab('panel-structure', 'icn-structure');
-                        }
                     }
                     let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
                 } else {
@@ -1775,7 +1695,7 @@
         if (nomeDoProjeto) {
             const urlRaizSupabase = `${supabaseUrl}/storage/v1/object/public/projetos-ar/`; const arquivoFinal = nomeDoProjeto.endsWith('.glb') ? nomeDoProjeto : nomeDoProjeto + '.glb';
             document.getElementById('loading-text').innerText = "Baixando da Nuvem..."; loadingScreen.classList.add('active'); progressFill.style.width = "15%";
-            setTimeout(() => { viewer.src = urlRaizSupabase + arquivoFinal; window.resetAllSettings(); window.openMasterTab('panel-structure', 'icn-structure'); }, 600);
+            setTimeout(() => { viewer.src = urlRaizSupabase + arquivoFinal; window.resetAllSettings(); }, 600);
         }
 
         function sanitizeUrl(url) { let cleanUrl = url.trim(); if (cleanUrl.includes('github.com') && cleanUrl.includes('/blob/')) { cleanUrl = cleanUrl.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/'); } if (cleanUrl.includes('drive.google.com/file/d/')) { const match = cleanUrl.match(/\/d\/(.+?)\//); if (match && match[1]) { cleanUrl = `https://drive.google.com/uc?export=download&id=${match[1]}`; } } return cleanUrl; }
@@ -1793,7 +1713,7 @@
                 showToast("Conectando...", 3000, "success"); window.stopScanner(); 
                 document.getElementById('loading-text').innerText = "Baixando da Nuvem..."; loadingScreen.classList.add('active'); progressFill.style.width = "10%";
                 clearTimeout(loadTimeout); loadTimeout = setTimeout(() => { if(loadingScreen.classList.contains('active')) { loadingScreen.classList.remove('active'); showToast("Tempo esgotado.", 6000, "warning"); viewer.src = ""; } }, 25000);
-                setTimeout(() => { viewer.src = sanitizeUrl(decodedText); window.resetAllSettings(); window.openMasterTab('panel-structure', 'icn-structure'); window.modelBBox = null; }, 500);
+                setTimeout(() => { viewer.src = sanitizeUrl(decodedText); window.resetAllSettings(); window.modelBBox = null; }, 500);
             }, (error) => {  });
         }
 
@@ -1830,93 +1750,15 @@
         }
 
         viewer.addEventListener('load', () => {
-            tagContainer.innerHTML = ""; const isPbrChecked = document.getElementById('chk-pbr').checked; if(isPbrChecked) { window.togglePBR(true); }
-            
+            const isPbrChecked = document.getElementById('chk-pbr').checked; if(isPbrChecked) { window.togglePBR(true); }
             window.modelBBox = null;
 
             try {
                 const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene'); if(!sceneSymbol) return; const threeScene = viewer[sceneSymbol];
                 threeScene.traverse((node) => { if (node.isLine || node.isLineSegments) node.visible = false; });
-
-                function createNodeUI(node, parentUIContainer) {
-                    if (node.isLight || node.isCamera || node.name === 'MasterAnchorPin') return;
-                    let rawName = node.name || "GRUPO"; const validChildren = node.children.filter(c => !c.userData.isEdgeLine && !c.isLineSegments && !c.isLight && !c.isCamera); const isParent = validChildren.length > 0;
-                    if (!isParent && !node.isMesh) return;
-
-                    let finalName = rawName.replace(/_[A-Za-z0-9\-]{36}/g, '').replace(/_Node_\d+/g, '').replace(/_Mesh_\d+/g, '').replace(/_Object_\d+/g, '').replace(/_Part_\d+/g, '').replace(/_/g, ' ').trim(); if (finalName === "") finalName = "GRUPO";
-
-                    const wrapper = document.createElement('div'); wrapper.className = 'tree-node';
-                    const item = document.createElement('div'); item.className = 'list-item-tree';
-                    const childrenContainer = document.createElement('div'); childrenContainer.className = 'tree-children'; childrenContainer.style.display = 'none';
-
-                    const arrowBtn = document.createElement('span'); arrowBtn.className = 'arrow-toggle';
-                    if (isParent) { arrowBtn.innerHTML = '▼'; arrowBtn.classList.add('collapsed'); arrowBtn.onclick = () => { childrenContainer.style.display = childrenContainer.style.display === 'none' ? 'flex' : 'none'; arrowBtn.classList.toggle('collapsed'); }; } else { arrowBtn.innerHTML = '&nbsp;&nbsp;'; }
-
-                    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = node.visible; node.userData.uiCheckbox = checkbox;
-
-                    const typeIconMaster = document.createElement('span'); typeIconMaster.className = 'type-icon-master';
-                    if (isParent) { typeIconMaster.innerHTML = `<svg class="icon-small" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`; } 
-                    else { typeIconMaster.innerHTML = `<svg class="icon-small" viewBox="0 0 24 24"><polyline points="21 16 12 22 3 16 3 8 12 2 21 8 21 16"></polyline><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>`; }
-
-                    const labelSpan = document.createElement('div'); labelSpan.className = 'tag-name'; labelSpan.innerText = finalName.toUpperCase(); 
-                    node.userData.uiLabel = labelSpan;
-
-                    checkbox.addEventListener('change', (e) => { 
-                        node.visible = e.target.checked; 
-                        if (isParent) { childrenContainer.querySelectorAll('input[type="checkbox"]').forEach(chk => { chk.checked = e.target.checked; chk.dispatchEvent(new Event('change')); }); } 
-                        let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
-                        window.updateClippingPlanes(); 
-                    });
-
-                    labelSpan.addEventListener('click', () => {
-                        if (labelSpan.isContentEditable) return; const isAlreadyHighlighted = node.userData.isHighlighted;
-                        if (!window.multiHighlightEnabled && !isAlreadyHighlighted) { window.clearAllHighlights(); } 
-                        if (isAlreadyHighlighted) { labelSpan.classList.remove('highlighted'); labelSpan.style.color = ''; window.applyHighlightToNode(node, false); } 
-                        else { labelSpan.classList.add('highlighted'); labelSpan.style.color = window.customHighlightColor; window.applyHighlightToNode(node, true); window.expandAndScrollToUI(node); }
-                        let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
-                    });
-
-                    const editBtn = document.createElement('button'); editBtn.className = 'edit-btn'; editBtn.title = "Renomear";
-                    editBtn.innerHTML = `<svg style="width: 14px; height: 14px; stroke: #aaa; fill:none; stroke-width:1.5;" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>`;
-                    editBtn.addEventListener('click', (e) => { e.stopPropagation(); labelSpan.contentEditable = true; labelSpan.focus(); const range = document.createRange(); range.selectNodeContents(labelSpan); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); });
-                    labelSpan.addEventListener('blur', () => saveNewName()); labelSpan.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); labelSpan.blur(); } });
-
-                    function saveNewName() {
-                        labelSpan.contentEditable = false; window.getSelection().removeAllRanges(); let newName = labelSpan.innerText.trim(); 
-                        if (newName !== "" && newName.toUpperCase() !== finalName.toUpperCase()) { node.name = newName; finalName = newName; labelSpan.innerText = finalName.toUpperCase(); showToast(`Renomeado para "${newName}"`, 2500, "success"); } 
-                        else { labelSpan.innerText = finalName.toUpperCase(); } 
-                    }
-
-                    item.appendChild(arrowBtn); item.appendChild(checkbox); item.appendChild(typeIconMaster); item.appendChild(labelSpan); item.appendChild(editBtn);
-                    wrapper.appendChild(item); wrapper.appendChild(childrenContainer); parentUIContainer.appendChild(wrapper);
-                    if (isParent) { validChildren.forEach(child => createNodeUI(child, childrenContainer)); }
-                }
-                threeScene.children.forEach(child => { if(child.name === 'model' || child.type === 'Object3D' || child.isGroup || child.isMesh) { createNodeUI(child, tagContainer); } });
-                
                 window.setupCustomClipping();
             } catch (error) {}
         });
-
-        window.pesquisarTags = function(term) {
-            term = term.toLowerCase().trim();
-            const allNodes = document.querySelectorAll('#tag-container .tree-node');
-            if (term === '') { allNodes.forEach(node => { node.style.display = 'flex'; }); return; }
-            allNodes.forEach(node => { node.style.display = 'none'; });
-            
-            allNodes.forEach(node => {
-                const nameEl = node.querySelector('.tag-name');
-                if (nameEl && nameEl.innerText.toLowerCase().includes(term)) {
-                    node.style.display = 'flex';
-                    let p = node.parentElement;
-                    while (p && p.id !== 'tag-container') {
-                        if (p.classList.contains('tree-node')) p.style.display = 'flex';
-                        if (p.classList.contains('tree-children')) { p.style.display = 'flex'; let pn = p.closest('.tree-node'); if(pn) { let a = pn.querySelector('.arrow-toggle'); if(a) a.classList.remove('collapsed'); } }
-                        p = p.parentElement;
-                    }
-                    node.querySelectorAll('.tree-node').forEach(child => child.style.display = 'flex');
-                }
-            });
-        }
 
         window.toggleClay = function(isOn) { 
             window.clearAllHighlights(); 
@@ -2058,7 +1900,7 @@
             showToast("Origem Restaurada", 2000, "success");
         }
 
-        document.getElementById('load-file').addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { document.getElementById('loading-text').innerText = "Processando Geometria..."; loadingScreen.classList.add('active'); progressFill.style.width = "0%"; viewer.src = URL.createObjectURL(file); window.resetAllSettings(); window.openMasterTab('panel-structure', 'icn-structure'); window.modelBBox = null; } });
+        document.getElementById('load-file').addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { document.getElementById('loading-text').innerText = "Processando Geometria..."; loadingScreen.classList.add('active'); progressFill.style.width = "0%"; viewer.src = URL.createObjectURL(file); window.resetAllSettings(); window.modelBBox = null; } });
         window.changeBgColor = function(color) { document.body.style.backgroundColor = color; localStorage.setItem('suViewerBgColor', color); }
         document.addEventListener('DOMContentLoaded', () => { 
             document.body.style.backgroundColor = localStorage.getItem('suViewerBgColor') || '#363638'; 
