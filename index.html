@@ -10,19 +10,18 @@
     
     <link rel="apple-touch-icon" href="logo-master.png?v=3">
     <link rel="icon" type="image/png" href="logo-master.png?v=3">
-
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-        }
-      }
-    </script>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
 
     <style>
         :root { 
@@ -134,7 +133,7 @@
             border-radius: 8px; font-size: 11px; cursor: pointer; text-transform: uppercase;
         }
         .btn-main:hover { background: rgba(255,255,255,0.2); }
-        .btn-reset { width: 100%; padding: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-line); border-radius: 8px; font-size: 12px; cursor: pointer; margin-bottom: 15px; transition:0.2s;}
+        .btn-reset { width: 100%; padding: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-line); border-radius: 8px; font-size: 12px; cursor: margin-bottom: 15px; transition:0.2s;}
         .btn-reset:hover { background: rgba(255,255,255,0.2); }
         
         .btn-center-highlight { 
@@ -312,7 +311,7 @@
                         <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                     </button>
                     <button class="icon-btn" onclick="openMasterTab('panel-layers', 'icn-layers')" id="icn-layers">
-                        <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                     <button class="icon-btn" onclick="openMasterTab('panel-render', 'icn-render')" id="icn-render">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -368,18 +367,14 @@
                     <input type="file" id="load-overlay-file" accept=".glb,.gltf" class="hidden">
                     <button class="btn-main" style="width: 100%; margin-bottom: 15px; border-color: var(--su-blue);" onclick="document.getElementById('load-overlay-file').click()">+ IMPORTAR SOBREPOSIÇÃO</button>
 
-                    <div style="border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 15px; padding-bottom: 15px;">
-                        <label style="color: white; font-weight: bold; font-size: 11px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px;">
-                            TRANSPARÊNCIA DA BASE (ARQ)
-                        </label>
-                        <div class="slider-group" style="margin-bottom: 0; border: none; background: transparent; padding: 0;">
-                            <input type="range" id="base-opacity-slider" min="0.05" max="1" step="0.05" value="1" oninput="window.setBaseOpacity(this.value)">
-                        </div>
-                    </div>
-
                     <div class="list-item" style="border:none; padding:0 0 15px 0;">
                         <label style="font-weight: bold; color: var(--su-blue);">COR DA SOBREPOSIÇÃO</label>
                         <input type="color" id="overlay-color" value="#e74c3c" oninput="window.changeOverlayColor(this.value)">
+                    </div>
+
+                    <div class="list-item" style="border:none; padding:0 0 15px 0;">
+                        <label style="font-weight: bold; color: var(--su-blue); display:flex; justify-content:space-between; align-items:center; gap:8px;">TRANSPARÊNCIA DA BASE (ARQ) <span id="base-opacity-value" style="font-size: 11px; color: #f1c40f;">100%</span></label>
+                        <input type="range" id="base-opacity-slider" min="0.01" max="1" step="0.01" value="1" oninput="window.setBaseOpacity(this.value); document.getElementById('base-opacity-value').innerText = Math.round(this.value * 100) + '%';">
                     </div>
 
                     <button class="btn-reset" style="color: white; background: rgba(231, 76, 60, 0.2); border-color: var(--accent-red); font-weight: bold;" onclick="window.removeOverlay()">🗑️ REMOVER SOBREPOSIÇÃO</button>
@@ -433,7 +428,7 @@
                             MOSTRAR TUDO
                         </div>
                         <div class="scale-option" onclick="window.filterDiscipline('EST', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
-                            <svg class="icon-small" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                            <svg class="icon-small" viewBox="0 0 24 24"><path d="M3 21V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v13M3 21h18M9 21V13h6v8M7 21H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h2M19 21h2a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-2"/></svg>
                             ESTRUTURA
                         </div>
                         <div class="scale-option" onclick="window.filterDiscipline('HID', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
@@ -758,8 +753,9 @@
     </model-viewer>
 
     <script type="module">
-        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-        import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
         
         window.THREE = THREE;
@@ -831,6 +827,9 @@
                 
                 const url = URL.createObjectURL(file);
                 const loader = new GLTFLoader();
+                const dracoLoader = new DRACOLoader();
+                dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+                loader.setDRACOLoader(dracoLoader);
                 
                 loader.load(url, (gltf) => {
                     const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
@@ -876,6 +875,7 @@
                     let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
                     
                     progressFill.style.width = "100%";
+                    URL.revokeObjectURL(url);
                     setTimeout(() => {
                         loadingScreen.classList.remove('active');
                         showToast("Modelo sobreposto com sucesso!", 3000, "success");
@@ -883,6 +883,7 @@
 
                 }, undefined, (error) => {
                     console.error(error);
+                    URL.revokeObjectURL(url);
                     loadingScreen.classList.remove('active');
                     showToast("Erro ao carregar arquivo de sobreposição.", 4000, "warning");
                 });
@@ -894,7 +895,10 @@
             if(window.overlayModel) {
                 window.overlayModel.traverse((node) => {
                     if (node.isMesh && node.material) {
-                        if(node.material.color) node.material.color.set(color);
+                        const mats = Array.isArray(node.material) ? node.material : [node.material];
+                        mats.forEach((mat) => {
+                            if(mat && mat.color) mat.color.set(color);
+                        });
                     }
                 });
                 let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
@@ -903,9 +907,9 @@
 
         window.removeOverlay = function() {
             if(window.overlayModel) {
-                const targetGroup = window.getTargetGroup();
-                if(targetGroup) targetGroup.remove(window.overlayModel);
-                
+                if(window.overlayModel.parent) {
+                    window.overlayModel.parent.remove(window.overlayModel);
+                }
                 window.overlayModel = null;
                 document.getElementById('load-overlay-file').value = "";
                 showToast("Sobreposição removida.", 2000);
@@ -2111,6 +2115,7 @@
 
             // Remove a sobreposição ao trocar de projeto principal
             document.getElementById('base-opacity-slider').value = 1;
+            document.getElementById('base-opacity-value').innerText = '100%';
             window.removeOverlay();
         }
 
