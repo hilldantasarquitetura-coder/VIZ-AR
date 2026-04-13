@@ -10,6 +10,15 @@
     
     <link rel="apple-touch-icon" href="logo-master.png?v=3">
     <link rel="icon" type="image/png" href="logo-master.png?v=3">
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
     
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -158,10 +167,6 @@
         .pos-input::-webkit-outer-spin-button, .pos-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .pos-input[type=number] { -moz-appearance: textfield; }
 
-        .search-container { position: relative; margin-bottom: 15px; }
-        .search-container svg { position: absolute; left: 10px; top: 9px; width: 14px; color: #999; }
-        .tag-search-input { width: 100%; padding: 8px 10px 8px 30px; border: 1px solid var(--border-line); border-radius: 6px; background: rgba(0,0,0,0.3); color: white; font-size: 12px; box-sizing: border-box;}
-        
         #ar-btn { 
             position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); 
             background: transparent; color: white; border: none; font-size: 16px; 
@@ -300,6 +305,12 @@
                     <button class="icon-btn" onclick="openMasterTab('panel-qr', 'icn-qr')" id="icn-qr">
                         <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1"/><rect x="8" y="10" width="8" height="4" rx="1"/></svg>
                     </button>
+                    <button class="icon-btn" onclick="openMasterTab('panel-overlay', 'icn-overlay')" id="icn-overlay">
+                        <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="12" height="12" rx="2" ry="2" stroke="white" stroke-width="1.5" fill="none"></rect><rect x="9" y="9" width="12" height="12" rx="2" ry="2" stroke="white" stroke-width="1.5" fill="none"></rect></svg>
+                    </button>
+                    <button class="icon-btn" onclick="openMasterTab('panel-structure', 'icn-structure')" id="icn-structure">
+                        <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </button>
                     <button class="icon-btn" onclick="openMasterTab('panel-layers', 'icn-layers')" id="icn-layers">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                     </button>
@@ -315,6 +326,7 @@
                     <button class="icon-btn" onclick="openMasterTab('panel-clipping', 'icn-clipping')" id="icn-clipping">
                         <svg class="icon" viewBox="0 0 24 24"><path d="M3 12h18" stroke-width="1.5" stroke-dasharray="4,4"/><path d="M12 3v18" stroke-width="1.5" stroke-dasharray="4,4"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                     </button>
+
                     <button class="icon-btn" onclick="openMasterTab('panel-solar', 'icn-solar')" id="icn-solar">
                         <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                     </button>
@@ -332,7 +344,7 @@
             <div class="drawer-panel" id="panel-io">
                 <div class="panel-content">
                     <div class="top-actions">
-                        <button class="btn-main" onclick="document.getElementById('load-file').click()">↓ Importar</button>
+                        <button class="btn-main" onclick="document.getElementById('load-file').click()">↓ Importar Base</button>
                         <button class="btn-main" onclick="exportModifiedModel()">↑ Salvar</button>
                     </div>
                 </div>
@@ -341,10 +353,73 @@
             <div class="drawer-panel" id="panel-qr">
                 <div class="panel-content">
                     <button class="btn-reset" onclick="startScanner()">Ler QR CODE [ ]</button>
-                    <label style="font-size: 10px; color:#aaa; margin-top:15px; display:block;">LINK DO PROJETO:</label>
+                    <label style="font-size: 10px; color:#aaa; margin-top:15px; display:block;">LINK DO PROJETO BASE:</label>
                     <input type="text" id="qr-url-input" class="qr-input" placeholder="Cole a URL do projeto 3D">
                     <button class="btn-reset" style="margin-top: 0;" onclick="generateQRCode()">GERAR QRCODE</button>
                     <div id="qrcode-display" style="display: none; justify-content: center; margin-top: 15px; background: white; padding: 15px; border-radius: 8px;"></div>
+                </div>
+            </div>
+
+            <div class="drawer-panel" id="panel-overlay">
+                <div class="panel-header">COMPATIBILIZAÇÃO <span class="close-panel" onclick="openMasterTab(null, null)">✕</span></div>
+                <div class="panel-content">
+                    <p style="font-size: 10px; color: #aaa; margin-top:0; margin-bottom: 15px; line-height: 1.4;">Sobreponha um segundo modelo (ex: Hidráulica) sobre o modelo principal. Ambos devem possuir a mesma origem (0,0,0) no software 3D.</p>
+                    
+                    <input type="file" id="load-overlay-file" accept=".glb,.gltf" class="hidden">
+                    <button class="btn-main" style="width: 100%; margin-bottom: 15px; border-color: var(--su-blue);" onclick="document.getElementById('load-overlay-file').click()">+ IMPORTAR SOBREPOSIÇÃO</button>
+
+                    <div style="border-bottom: 1px solid rgba(255,255,255,0.2); margin-bottom: 15px; padding-bottom: 15px;">
+                        <label style="color: white; font-weight: bold; font-size: 11px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px;">
+                            TRANSPARÊNCIA DA BASE (ARQ)
+                        </label>
+                        <div class="slider-group" style="margin-bottom: 0; border: none; background: transparent; padding: 0;">
+                            <input type="range" id="base-opacity-slider" min="0.05" max="1" step="0.05" value="1" oninput="window.setBaseOpacity(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="list-item" style="border:none; padding:0 0 15px 0;">
+                        <label style="font-weight: bold; color: var(--su-blue);">COR DA SOBREPOSIÇÃO</label>
+                        <input type="color" id="overlay-color" value="#e74c3c" oninput="window.changeOverlayColor(this.value)">
+                    </div>
+
+                    <button class="btn-reset" style="color: white; background: rgba(231, 76, 60, 0.2); border-color: var(--accent-red); font-weight: bold;" onclick="window.removeOverlay()">🗑️ REMOVER SOBREPOSIÇÃO</button>
+                </div>
+            </div>
+
+            <div class="drawer-panel" id="panel-structure">
+                <div class="panel-header">ESTRUTURA DO MODELO <span class="close-panel" onclick="openMasterTab(null, null)">✕</span></div>
+                <div class="panel-content">
+                    <div style="border-bottom: 1px solid var(--border-line); margin-bottom: 10px; padding-bottom: 5px;">
+                        <div class="list-item" style="border:none; padding-bottom:5px;">
+                            <label style="color:var(--su-blue); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
+                                <input type="checkbox" id="chk-select-mode" checked onchange="window.setInteractionMode(this.checked ? 'select' : 'none')">
+                                MODO SELEÇÃO (CLIQUE NA PEÇA)
+                            </label>
+                        </div>
+                        
+                        <div class="list-item" style="border:none; padding-bottom:5px;">
+                            <label style="color:var(--accent-red); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
+                                <input type="checkbox" id="chk-multi" onchange="window.multiHighlightEnabled = this.checked">
+                                DESTACAR MÚLTIPLOS ITENS
+                            </label>
+                        </div>
+
+                        <div class="list-item" style="border:none; padding-bottom:5px;">
+                            <label style="font-weight: bold;">COR DA SELEÇÃO (DESTAQUE)</label>
+                            <input type="color" id="highlight-color" value="#ff0055" oninput="window.changeHighlightColor(this.value)">
+                        </div>
+                        <button class="btn-reset" style="margin-bottom: 5px;" onclick="clearAllHighlights()">APAGAR TODOS OS DESTAQUES</button>
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <div class="list-item" style="border:none; padding-bottom:5px;">
+                            <label style="color:var(--text-muted); display:flex; align-items:center; gap:8px; font-weight:bold; cursor:pointer;">
+                                <input type="checkbox" id="chk-hide-mode" onchange="window.setInteractionMode(this.checked ? 'hide' : 'none')">
+                                MODO OCULTAR (CLIQUE NA PEÇA)
+                            </label>
+                        </div>
+                        <button class="btn-reset" style="margin-bottom: 5px; background: rgba(0, 91, 181, 0.2); border-color: var(--su-blue); font-weight:bold; color: white;" onclick="window.showAllElements()">👁 REEXIBIR TUDO</button>
+                    </div>
                 </div>
             </div>
 
@@ -684,7 +759,9 @@
 
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+        import { GLTFLoader } from 'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        
         window.THREE = THREE;
 
         if ('serviceWorker' in navigator) {
@@ -738,6 +815,154 @@
         
         let html5QrcodeScanner = null;
         let loadTimeout = null;
+
+        // ==========================================
+        // MOTOR DE SOBREPOSIÇÃO (COMPATIBILIZAÇÃO)
+        // ==========================================
+        window.overlayModel = null;
+        window.overlayColor = '#e74c3c'; // Cor padrão (Vermelho)
+
+        document.getElementById('load-overlay-file').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('loading-text').innerText = "Carregando Sobreposição...";
+                loadingScreen.classList.add('active');
+                progressFill.style.width = "40%";
+                
+                const url = URL.createObjectURL(file);
+                const loader = new GLTFLoader();
+                
+                loader.load(url, (gltf) => {
+                    const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
+                    if(!sceneSymbol || !viewer[sceneSymbol]) return;
+                    const threeScene = viewer[sceneSymbol];
+
+                    // Remove sobreposição anterior se existir
+                    if(window.overlayModel) {
+                        const targetGroup = window.getTargetGroup();
+                        if(targetGroup) targetGroup.remove(window.overlayModel);
+                        else threeScene.remove(window.overlayModel);
+                    }
+
+                    window.overlayModel = gltf.scene;
+                    window.overlayModel.name = 'OverlayModelGroup';
+                    
+                    // Aplica a cor selecionada na sobreposição
+                    window.overlayModel.traverse((node) => {
+                        if (node.isMesh) {
+                            const newMat = new window.THREE.MeshStandardMaterial({
+                                color: new window.THREE.Color(window.overlayColor),
+                                roughness: 0.4,
+                                metalness: 0.1,
+                                side: window.THREE.DoubleSide
+                            });
+                            newMat.userData.hasCustomClipping = false; // Permite que a sobreposição seja cortada
+                            node.material = newMat;
+                            node.castShadow = true;
+                            node.receiveShadow = true;
+                        }
+                    });
+
+                    // Adiciona a sobreposição dentro do grupo alvo do Model-Viewer para herdar a escala e posição!
+                    const targetGroup = window.getTargetGroup();
+                    if(targetGroup) {
+                        targetGroup.add(window.overlayModel);
+                    } else {
+                        threeScene.add(window.overlayModel);
+                    }
+
+                    window.updateClippingPlanes(); // Aplica os cortes 3D na sobreposição também
+                    
+                    let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
+                    
+                    progressFill.style.width = "100%";
+                    setTimeout(() => {
+                        loadingScreen.classList.remove('active');
+                        showToast("Modelo sobreposto com sucesso!", 3000, "success");
+                    }, 500);
+
+                }, undefined, (error) => {
+                    console.error(error);
+                    loadingScreen.classList.remove('active');
+                    showToast("Erro ao carregar arquivo de sobreposição.", 4000, "warning");
+                });
+            }
+        });
+
+        window.changeOverlayColor = function(color) {
+            window.overlayColor = color;
+            if(window.overlayModel) {
+                window.overlayModel.traverse((node) => {
+                    if (node.isMesh && node.material) {
+                        if(node.material.color) node.material.color.set(color);
+                    }
+                });
+                let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
+            }
+        }
+
+        window.removeOverlay = function() {
+            if(window.overlayModel) {
+                const targetGroup = window.getTargetGroup();
+                if(targetGroup) targetGroup.remove(window.overlayModel);
+                
+                window.overlayModel = null;
+                document.getElementById('load-overlay-file').value = "";
+                showToast("Sobreposição removida.", 2000);
+                let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
+            }
+        }
+
+        window.setBaseOpacity = function(val) {
+            const opacity = parseFloat(val);
+            const isTransparent = opacity < 1.0;
+
+            const sceneSymbol = Object.getOwnPropertySymbols(viewer).find(s => s.description === 'scene');
+            if(!sceneSymbol || !viewer[sceneSymbol]) return;
+
+            viewer[sceneSymbol].traverse((node) => {
+                // Aplica apenas na arquitetura base (ignora a sobreposição, linhas, luzes, fundo)
+                if (node.isMesh && node.material && !node.userData.isEdgeLine && !node.isLineSegments && !node.name.startsWith('measure-line') && !node.name.includes('EnvironmentMap') && !node.name.includes('BackgroundSkybox')) {
+                    
+                    // Verifica se essa malha faz parte do modelo Sobreposto
+                    let currentParent = node.parent;
+                    let isOverlay = false;
+                    while(currentParent) {
+                        if(currentParent.name === 'OverlayModelGroup') { isOverlay = true; break; }
+                        currentParent = currentParent.parent;
+                    }
+                    if(isOverlay) return; // Não deixa a sobreposição transparente
+
+                    const mats = Array.isArray(node.material) ? node.material : [node.material];
+                    
+                    if (!node.userData.origMaterialForOpacity) {
+                        // Salva os estados originais dos materiais
+                        node.userData.origMaterialForOpacity = mats.map(m => ({
+                            transparent: m.transparent,
+                            opacity: m.opacity,
+                            depthWrite: m.depthWrite
+                        }));
+                    }
+
+                    mats.forEach((m, idx) => {
+                        const orig = node.userData.origMaterialForOpacity[idx];
+                        if(orig) {
+                            if (isTransparent) {
+                                m.transparent = true;
+                                m.opacity = opacity;
+                                m.depthWrite = false; // Evita conflitos de renderização (z-fighting) no vidro fantasma
+                            } else {
+                                m.transparent = orig.transparent;
+                                m.opacity = orig.opacity;
+                                m.depthWrite = orig.depthWrite;
+                            }
+                            m.needsUpdate = true;
+                        }
+                    });
+                }
+            });
+            let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
+        }
 
         // ==========================================
         // MOTOR DE ESTUDO SOLAR (GPS E ASTRONOMIA)
@@ -1114,10 +1339,11 @@
             // Ignora linhas de contorno e medições
             if (hit.object.userData.isEdgeLine || (hit.object.name && hit.object.name.startsWith('measure-line'))) return false;
             
-            // Verifica se a malha ou seus pais diretos estão visíveis
+            // Verifica se a malha ou seus pais diretos estão visíveis e IGNORA A SOBREPOSIÇÃO
             let current = hit.object;
             while(current) {
                 if(current.visible === false) return false;
+                if(current.name === 'OverlayModelGroup') return false; // Ignora clique no modelo compatibilizado
                 current = current.parent;
             }
 
@@ -1244,10 +1470,6 @@
             }
             let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
             window.updateClippingPlanes();
-        }
-
-        window.expandAndScrollToUI = function(node) {
-           return; // Função desativada para otimização - a lista não é mais montada.
         }
 
         // ==========================================
@@ -1430,20 +1652,14 @@
                 if (intersects.length > 0) {
                     let node = intersects[0].object; 
                     
-                    // Lógica Mestre: Se o Mesh pertencer a um Componente (Grupo) exportado do SketchUp, oculta o Componente inteiro!
-                    if (node.parent && node.parent.userData.uiCheckbox && node.parent.name !== 'model' && node.parent.name !== 'RootNode') {
+                    // CORREÇÃO: Pega o pai imediato (Componente) sem subir até o topo do modelo
+                    if (node.parent && (node.parent.isGroup || node.parent.type === 'Object3D') && node.parent.name !== 'model' && node.parent.name !== 'RootNode' && node.parent.type !== 'Scene') {
                         node = node.parent;
                     }
 
                     node.visible = false;
-                    if (node.userData.uiCheckbox) node.userData.uiCheckbox.checked = false;
-                    
-                    // Desmarca também os filhos para sincronizar perfeitamente com a lista
-                    node.traverse(child => {
-                        if (child.userData.uiCheckbox) child.userData.uiCheckbox.checked = false;
-                    });
-
                     let currentExp = parseFloat(viewer.exposure) || 1.0; viewer.exposure = currentExp + 0.0001; setTimeout(() => { viewer.exposure = currentExp; }, 10);
+                    window.updateClippingPlanes();
                 }
                 return; 
             }
@@ -1587,8 +1803,8 @@
                 if (intersects.length > 0) {
                     let node = intersects[0].object;
                     
-                    // Lógica Mestre: Captura o componente inteiro se a malha clicada for parte de um sub-grupo
-                    if (node.parent && node.parent.userData.uiCheckbox && node.parent.name !== 'model' && node.parent.name !== 'RootNode') {
+                    // CORREÇÃO: Pega o pai imediato (Componente) sem subir até o topo do modelo
+                    if (node.parent && (node.parent.isGroup || node.parent.type === 'Object3D') && node.parent.name !== 'model' && node.parent.name !== 'RootNode' && node.parent.type !== 'Scene') {
                         node = node.parent;
                     }
                     
@@ -1892,6 +2108,10 @@
             viewer.fieldOfView = '60deg'; 
             viewer.shadowIntensity = document.getElementById('shadow-int-slider').value;
             viewer.shadowSoftness = document.getElementById('shadow-soft-slider').value;
+
+            // Remove a sobreposição ao trocar de projeto principal
+            document.getElementById('base-opacity-slider').value = 1;
+            window.removeOverlay();
         }
 
         window.recenterModel = function() {
@@ -1992,13 +2212,6 @@
                             curr = curr.parent;
                         }
                     }
-                }
-            });
-
-            // Sincroniza as checkboxes do painel lateral principal
-            scene.traverse((node) => {
-                if(node.userData && node.userData.uiCheckbox) {
-                    node.userData.uiCheckbox.checked = node.visible;
                 }
             });
 
