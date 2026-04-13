@@ -106,7 +106,7 @@
         svg.icon-small { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
         .drawer-panel { 
-            background: var(--bg-panel); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: var(--bg-panel); backdrop-filter: blur(var(--blur-amount, 20px)); -webkit-backdrop-filter: blur(var(--blur-amount, 20px));
             border-radius: var(--radius); border: 1px solid var(--border-line);
             width: 290px; 
             height: auto; max-height: 100%;
@@ -118,7 +118,7 @@
         @keyframes slideIn { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }
 
         .panel-header {
-            font-weight: 600; font-size: 11px; padding: 15px; color: white;
+            font-weight: 600; font-size: 11px; padding: 15px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7);
             text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border-line);
             display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
         }
@@ -129,23 +129,23 @@
 
         .top-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;}
         .btn-main {
-            background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-line); padding: 10px;
+            background: rgba(255,255,255,0.1); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid var(--border-line); padding: 10px;
             border-radius: 8px; font-size: 11px; cursor: pointer; text-transform: uppercase;
         }
         .btn-main:hover { background: rgba(255,255,255,0.2); }
-        .btn-reset { width: 100%; padding: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-line); border-radius: 8px; font-size: 12px; cursor: margin-bottom: 15px; transition:0.2s;}
+        .btn-reset { width: 100%; padding: 10px; background: rgba(255,255,255,0.1); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); border: 1px solid var(--border-line); border-radius: 8px; font-size: 12px; cursor: margin-bottom: 15px; transition:0.2s;}
         .btn-reset:hover { background: rgba(255,255,255,0.2); }
         
         .btn-center-highlight { 
             background: rgba(255,255,255,0.08); 
             border: 1px solid var(--border-line); 
-            font-weight: bold; margin-bottom: 20px; color: white; 
+            font-weight: bold; margin-bottom: 20px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7);
             padding: 12px; width: 100%; border-radius: 8px; font-size: 11px; letter-spacing: 1px;
             cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn-center-highlight:hover { background: rgba(255,255,255,0.15); }
 
-        .list-item { display: flex; align-items: center; justify-content: space-between; font-size: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-line); color: var(--text-muted); text-transform: uppercase; }
+        .list-item { display: flex; align-items: center; justify-content: space-between; font-size: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-line); color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); text-transform: uppercase; }
         .list-item label { color: white; flex-grow:1;}
         .list-item input[type="checkbox"] { margin: 0 0 0 10px; cursor: pointer; accent-color: var(--su-blue); width: 16px; height: 16px; flex-shrink: 0; }
         input[type="color"] { -webkit-appearance: none; border: none; width: 24px; height: 24px; border-radius: 4px; background: none; cursor:pointer; flex-shrink: 0;}
@@ -153,15 +153,15 @@
         .qr-input { width: 100%; padding: 10px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-line); border-radius: 8px; font-size: 12px; margin-bottom: 10px; outline: none; box-sizing: border-box;}
 
         .scale-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .scale-option { padding: 10px; border: 1px solid var(--border-line); background: rgba(0,0,0,0.2); cursor: pointer; font-size: 11px; border-radius: 8px; text-align: center; color: white; transition: 0.2s;}
+        .scale-option { padding: 10px; border: 1px solid var(--border-line); background: rgba(0,0,0,0.2); cursor: pointer; font-size: 11px; border-radius: 8px; text-align: center; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); transition: 0.2s;}
         .scale-option.active { background: rgba(255,255,255,0.2); font-weight: bold;}
 
         .slider-group { margin-bottom: 15px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px; border: 1px solid var(--border-line); }
-        .slider-group label { font-size: 11px; display: flex; justify-content: space-between; color: white; margin-bottom: 8px; font-weight: bold;}
+        .slider-group label { font-size: 11px; display: flex; justify-content: space-between; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); margin-bottom: 8px; font-weight: bold;}
         input[type=range] { width: 100%; cursor: pointer; accent-color: white; height: 2px; background: var(--border-line); outline: none; -webkit-appearance: none; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: white; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.5);}
 
-        .pos-input { width: 50px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-line); color: var(--su-blue); border-radius: 4px; padding: 4px; font-size: 11px; outline: none; text-align: center; font-weight: bold; transition: border 0.2s; }
+        .pos-input { width: 50px; background: rgba(0,0,0,0.4); border: 1px solid var(--border-line); color: white; border-radius: 4px; padding: 4px; font-size: 11px; outline: none; text-align: center; font-weight: bold; transition: border 0.2s; }
         .pos-input:focus { border-color: var(--su-blue); }
         .pos-input::-webkit-outer-spin-button, .pos-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         .pos-input[type=number] { -moz-appearance: textfield; }
@@ -362,7 +362,7 @@
             <div class="drawer-panel" id="panel-overlay">
                 <div class="panel-header">COMPATIBILIZAÇÃO <span class="close-panel" onclick="openMasterTab(null, null)">✕</span></div>
                 <div class="panel-content">
-                    <p style="font-size: 10px; color: #aaa; margin-top:0; margin-bottom: 15px; line-height: 1.4;">Sobreponha um segundo modelo (ex: Hidráulica) sobre o modelo principal. Ambos devem possuir a mesma origem (0,0,0) no software 3D.</p>
+                    <p style="font-size: 10px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); margin-top:0; margin-bottom: 15px; line-height: 1.4;">Sobreponha um segundo modelo (ex: Hidráulica) sobre o modelo principal. Ambos devem possuir a mesma origem (0,0,0) no software 3D.</p>
                     
                     <input type="file" id="load-overlay-file" accept=".glb,.gltf" class="hidden">
                     <button class="btn-main" style="width: 100%; margin-bottom: 15px; border-color: var(--su-blue);" onclick="document.getElementById('load-overlay-file').click()">+ IMPORTAR SOBREPOSIÇÃO</button>
@@ -421,7 +421,7 @@
             <div class="drawer-panel" id="panel-layers">
                 <div class="panel-header">FILTROS DE DISCIPLINA <span class="close-panel" onclick="openMasterTab(null, null)">✕</span></div>
                 <div class="panel-content">
-                    <p style="font-size: 10px; color: #aaa; margin-top:0; margin-bottom: 15px; line-height: 1.4;">Isole uma disciplina antes de abrir a câmera AR para visualizar apenas o que importa no canteiro.</p>
+                    <p style="font-size: 10px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.7); margin-top:0; margin-bottom: 15px; line-height: 1.4;">Isole uma disciplina antes de abrir a câmera AR para visualizar apenas o que importa no canteiro.</p>
                     <div class="scale-options-grid" style="grid-template-columns: 1fr;">
                         <div class="scale-option active" onclick="window.filterDiscipline('ALL', this)" style="text-align: left; padding: 12px; display: flex; align-items: center; gap: 10px;">
                             <svg class="icon-small" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -481,7 +481,7 @@
                         </label>
                         <div class="slider-group" style="margin-bottom: 12px; border: none; background: transparent; padding: 0;">
                             <label>Opacidade dos Menus</label>
-                            <input type="range" min="0.2" max="1" step="0.05" value="0.85" oninput="document.documentElement.style.setProperty('--panel-alpha', this.value)">
+                            <input type="range" min="0" max="1" step="0.01" value="0.85" oninput="document.documentElement.style.setProperty('--panel-alpha', this.value); document.documentElement.style.setProperty('--blur-amount', this.value > 0 ? '20px' : '0px');">
                         </div>
                         <div class="list-item" style="padding:0; border:none;">
                             <label>Cor do Fundo 3D</label>
